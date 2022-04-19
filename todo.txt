@@ -1,0 +1,2 @@
+- fixme: create a html page that uses javascript to interactively render the output from algorithms interactively
+
