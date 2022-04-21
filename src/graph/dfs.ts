@@ -7,6 +7,8 @@ import {Color, GraphSearch} from "./graph_search";
  * DFS Graph algorithm
  *
  * fixme: add visualization to show the paths
+ * https://github.com/cytoscape/cytoscape.js
+ *
  */
 class DFS extends GraphSearch{
 
