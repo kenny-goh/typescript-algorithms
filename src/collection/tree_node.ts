@@ -73,6 +73,36 @@ export class BinaryTreeNode<T> {
         }
     }
 
+    public printPreOrder(node: BinaryTreeNode<T> | null) {
+        let aNode = node;
+        if (aNode == null) {
+            aNode = this.root;
+        }
+        console.log(aNode?.key);
+        aNode?.left && this.printPreOrder(aNode.left)
+        aNode?.right && this.printPreOrder(aNode.right)
+    }
+
+    public printInOrder(node: BinaryTreeNode<T> | null) {
+        let aNode = node;
+        if (aNode == null) {
+            aNode = this.root;
+        }
+        aNode?.left && this.printInOrder(aNode.left)
+        console.log(aNode?.key);
+        aNode?.right && this.printInOrder(aNode.right)
+    }
+
+    public printPostOrder(node: BinaryTreeNode<T> | null) {
+        let aNode = node;
+        if (aNode == null) {
+            aNode = this.root;
+        }
+        aNode?.left && this.printPostOrder(aNode.left)
+        aNode?.right && this.printPostOrder(aNode.right)
+        console.log(aNode?.key);
+    }
+
     /**
      *
      * @param node
@@ -164,4 +194,13 @@ if (require.main === module) {
     console.log(root.keyExist(8))
 
     root.printTree()
+
+    console.log("Print pre order")
+    root.printPreOrder(null);
+
+    console.log("Print in order")
+    root.printInOrder(null);
+
+    console.log("Print post order")
+    root.printPostOrder(null);
 }
