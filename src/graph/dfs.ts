@@ -1,37 +1,52 @@
 import {GraphInterface} from "./graph_interface";
 import {AdjacencyMatrixGraph} from "./adjancency_matrix_graph";
+import {Color, GraphSearch} from "./graph_search";
 
-type Color = "white" | "grey" | "black";
 
 /**
  * DFS Graph algorithm
+ *
+ * fixme: add visualization to show the paths
  */
-class DFS {
-    private _discovered: Array<number> = []
-    private _pred: Array<number>  = []
+class DFS extends GraphSearch{
+
     private _finished: Array<number>  = []
-    private _color: Array<Color>  = []
-    private _counter = 0;
+    private _discovered: Array<number> = []
+
+    set discovered(value: Array<number>) {
+        this._discovered = value;
+    }
+
+    get discovered(): Array<number> {
+        return this._discovered;
+    }
+
+    get finished(): Array<number> {
+        return this._finished;
+    }
+    set finished(value: Array<number>) {
+        this._finished = value;
+    }
 
     /**
      *
      * @param G
      * @param startNode
      */
-    search(G: GraphInterface, startNode: number) {
-        this._discovered = new Array<number>(G.numberOfNodes());
-        this._pred = new Array<number>(G.numberOfNodes());
-        this._finished = new Array<number>(G.numberOfNodes());
-        this._color = new Array<Color>(G.numberOfNodes());
+    search(G: GraphInterface, startNode: number): void {
+        this.discovered = new Array<number>(G.numberOfNodes());
+        this.pred = new Array<number>(G.numberOfNodes());
+        this.finished = new Array<number>(G.numberOfNodes());
+        this.color = new Array<Color>(G.numberOfNodes());
         for (let v = 0; v < G.numberOfNodes(); v++) {
-            this._discovered[v] = this._finished[v] = this._pred[v] = -1
-            this._color[v] = 'white'
+            this.discovered[v] = this.finished[v] = this.pred[v] = -1
+            this.color[v] = 'white'
         }
-        this._counter = 0;
+        this.counter = 0;
         this.dfs_visit(G, startNode);
 
         for (let v = 0; v < G.numberOfNodes(); v++) {
-            if (this._color[v] == 'white') {
+            if (this.color[v] == 'white') {
                 this.dfs_visit(G, v);
             }
         }
@@ -43,43 +58,29 @@ class DFS {
      * @param u
      */
     dfs_visit(G: GraphInterface, u: number) {
-        this._color[u] = "grey"
-        this._discovered[u] = ++this._counter;
+        this.color[u] = "grey"
+        this.discovered[u] = ++this.counter;
         // for each neighbor of v of u do
         for (let v = 0; v < G.numberOfNodes(); v++) {
             if (G.isEdge(u, v)) {
-                if (this._color[v] == 'white') {
-                    this._pred[v] = u
+                if (this.color[v] == 'white') {
+                    this.pred[v] = u
                     this.dfs_visit(G, v)
                 }
             }
         }
-        this._color[u] = 'black'
-        this._finished[u] = ++this._counter;
-    }
-
-    get color(): Array<Color> {
-        return this._color;
-    }
-    get finished(): Array<number> {
-        return this._finished;
-    }
-    get pred(): Array<number> {
-        return this._pred;
-    }
-    get discovered(): Array<number> {
-        return this._discovered;
+        this.color[u] = 'black'
+        this.finished[u] = ++this.counter;
     }
 
     toString(): string {
         const rowsBuilder = new Array<string>()
         rowsBuilder.push(['v', 'pred', 'd', 'f'].join("\t"))
         for (let i = 0; i < this.discovered.length; i++) {
-            rowsBuilder.push([`v${i}`, this._pred[i], this._discovered[i], this._finished[i]].join("\t"))
+            rowsBuilder.push([`v${i}`, this.pred[i], this.discovered[i], this.finished[i]].join("\t"))
         }
         return rowsBuilder.join("\n")
     }
-
 }
 
 if (require.main === module) {

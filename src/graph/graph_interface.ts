@@ -1,5 +1,7 @@
 
-
+/**
+ * Graph Interface
+ */
 export interface GraphInterface {
     isDirected(): boolean
     numberOfNodes(): number

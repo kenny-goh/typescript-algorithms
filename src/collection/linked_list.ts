@@ -3,7 +3,6 @@
  */
 import {Collection} from "./collection";
 
-
 /**
  *
  */

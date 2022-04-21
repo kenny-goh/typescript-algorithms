@@ -12,9 +12,11 @@ export class Queue<T> implements Collection<T> {
         }
         this._storage.push(item);
     }
+
     dequeue(): T | undefined {
         return this._storage.shift();
     }
+
     size(): number {
         return this._storage.length;
     }
